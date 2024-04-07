@@ -104,6 +104,8 @@ class MainActivity : AppCompatActivity(), FetchAPIDataClass.OnDataFetchedListene
 
         // Retrieve FCM token
         retrieveFCMToken()
+
+        notification()
     }
 
     private fun retrieveFCMToken() {
