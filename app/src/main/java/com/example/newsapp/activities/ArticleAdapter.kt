@@ -42,13 +42,11 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_LIST -> {
-                //val view = LayoutInflater.from(parent.context).inflate(R.layout.article_listview_item, parent, false)
                 val binding = ArticleListviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ArticleListViewHolder(binding)
             }
 
             VIEW_TYPE_CARD -> {
-                //val view = LayoutInflater.from(parent.context).inflate(R.layout.article_cardview_item, parent, false)
                 val binding = ArticleCardviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ArticleCardViewHolder(binding)
             }
@@ -64,7 +62,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 val mHolder = holder as ArticleCardViewHolder
                 val data = articleList[position]
                 // Bind data to CardViewHolder
-                //bindDataToCardViewHolder(mHolder, data)
                 mHolder.bind(data)
             }
 
@@ -72,7 +69,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
                 val mHolder = holder as ArticleListViewHolder
                 val data = articleList[position]
                 // Bind data to ListViewHolder
-                //bindDataToListViewHolder(mHolder, data)
                 mHolder.bind(data)
             }
         }
@@ -82,40 +78,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     override fun getItemCount(): Int {
         return articleList.size
     }
-
-    // Bind data to CardViewHolder
-    /*private fun bindDataToCardViewHolder(mholder: ArticleCardViewHolder, data: Article) {
-        // Load image asynchronously
-        loadAndDisplayImage(data.urlToImage, mholder.image, mholder.loading)
-        // Set other data to CardViewHolder views
-        mholder.source.text = data.name
-        mholder.author.text = "By ${data.author}"
-        // Format and set published date
-        setPublishedDate(data.publishedAt, mholder.time)
-        mholder.title.text = data.title
-        mholder.description.text = data.description
-        mholder.content.text = data.content
-        // Handle click event on title
-        mholder.title.setOnClickListener {
-            openArticleUrl(data.url)
-        }
-    }*/
-
-    // Bind data to ListViewHolder
-    /*private fun bindDataToListViewHolder(mholder: ArticleListViewHolder, data: Article) {
-        // Load image asynchronously
-        loadAndDisplayImage(data.urlToImage, mholder.image, mholder.loading)
-        // Set data to ListViewHolder views
-        mholder.headline.text = data.title
-        mholder.source.text = data.name
-        mholder.author.text = "By ${data.author}"
-        // Format and set published date
-        setPublishedDate(data.publishedAt, mholder.time)
-        // Handle click event on headline
-        mholder.headline.setOnClickListener {
-            openArticleUrl(data.url)
-        }
-    }*/
 
     // Load image asynchronously and display it in the ImageView
     private fun loadAndDisplayImage(url: String?, imageView: ImageView, loadingView: TextView) {
@@ -166,12 +128,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     // ViewHolder for list view type
     inner class ArticleListViewHolder(private val binding: ArticleListviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        /*val loading: TextView = itemView.findViewById(R.id.item_loading)
-        val image: ImageView = itemView.findViewById(R.id.item_image)
-        val headline: TextView = itemView.findViewById(R.id.item_headline)
-        val source: TextView = itemView.findViewById(R.id.item_source)
-        val time: TextView = itemView.findViewById(R.id.item_time)
-        val author: TextView = itemView.findViewById(R.id.item_author)*/
         fun bind(article: Article) {
             // Load image asynchronously
             loadAndDisplayImage(article.urlToImage, binding.itemImage, binding.itemLoading)
@@ -190,14 +146,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     // ViewHolder for card view type
     inner class ArticleCardViewHolder(private val binding: ArticleCardviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        /*val loading: TextView = itemView.findViewById(R.id.item_loading)
-        val image: ImageView = itemView.findViewById(R.id.item_image)
-        val source: TextView = itemView.findViewById(R.id.item_source)
-        val time: TextView = itemView.findViewById(R.id.item_time)
-        val author: TextView = itemView.findViewById(R.id.item_author)
-        val title: TextView = itemView.findViewById(R.id.item_title)
-        val description: TextView = itemView.findViewById(R.id.item_description)
-        val content: TextView = itemView.findViewById(R.id.item_content)*/
 
         fun bind(article: Article) {
             // Load image asynchronously
