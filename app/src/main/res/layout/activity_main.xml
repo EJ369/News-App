@@ -7,13 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="15dp">
@@ -29,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/archivo_medium"
                 android:text="Discover"
-                android:textColor="@color/gradient_one"
+                android:textColor="@color/orange"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -43,8 +42,8 @@
 
         <ImageView
             android:id="@+id/listView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="2dp"
             android:src="@drawable/listview" />
 
@@ -73,6 +72,8 @@
             android:layout_weight="1"
             android:background="@drawable/stroke_layout"
             android:iconifiedByDefault="false"
+            android:searchIcon="@drawable/search_icon"
+            android:closeIcon="@drawable/close_icon"
             android:queryHint="Search news" />
 
         <ImageView
@@ -93,9 +94,10 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        tools:listitem="@layout/article_listview_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

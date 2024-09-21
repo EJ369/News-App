@@ -1,4 +1,4 @@
-package com.example.newsapp
+package com.example.newsapp.models
 
 import android.os.Handler
 import android.os.Looper

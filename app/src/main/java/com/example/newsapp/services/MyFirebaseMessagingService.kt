@@ -1,4 +1,4 @@
-package com.example.newsapp
+package com.example.newsapp.services
 
 import android.annotation.SuppressLint
 import android.app.NotificationManager
@@ -7,11 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.newsapp.R
+import com.example.newsapp.activities.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.io.InputStream
@@ -65,7 +66,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun showNotification(title: String?, description: String?, bitmap: Bitmap) {
-        // Create an intent to open the app when the notification is clicked
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(

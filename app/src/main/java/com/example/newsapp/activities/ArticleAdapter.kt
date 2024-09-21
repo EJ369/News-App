@@ -1,4 +1,4 @@
-package com.example.newsapp
+package com.example.newsapp.activities
 
 import android.content.Context
 import android.content.Intent
@@ -10,12 +10,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp.R
+import com.example.newsapp.databinding.ArticleCardviewItemBinding
+import com.example.newsapp.databinding.ArticleListviewItemBinding
+import com.example.newsapp.models.Article
+import com.example.newsapp.services.ImageLoaderTask
 import java.text.SimpleDateFormat
 import java.util.TimeZone
 
 class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var articlelist: List<Article> = mutableListOf()
+    private var articleList: List<Article> = mutableListOf()
     private var viewtype = "List"
 
     companion object {
@@ -25,7 +30,7 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     // Determine the view type based on the position in the list
     override fun getItemViewType(position: Int): Int {
-        val item = articlelist[position]
+        val item = articleList[position]
         return if (viewtype == "List") {
             VIEW_TYPE_LIST
         } else {
@@ -37,13 +42,15 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_LIST -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.article_listview_item, parent, false)
-                Article_ListViewHolder(view)
+                //val view = LayoutInflater.from(parent.context).inflate(R.layout.article_listview_item, parent, false)
+                val binding = ArticleListviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ArticleListViewHolder(binding)
             }
 
             VIEW_TYPE_CARD -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.article_cardview_item, parent, false)
-                Article_CardViewHolder(view)
+                //val view = LayoutInflater.from(parent.context).inflate(R.layout.article_cardview_item, parent, false)
+                val binding = ArticleCardviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ArticleCardViewHolder(binding)
             }
 
             else -> throw IllegalArgumentException("Invalid view type")
@@ -54,28 +61,30 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             VIEW_TYPE_CARD -> {
-                val mholder = holder as Article_CardViewHolder
-                val data = articlelist[position]
+                val mHolder = holder as ArticleCardViewHolder
+                val data = articleList[position]
                 // Bind data to CardViewHolder
-                bindDataToCardViewHolder(mholder, data)
+                //bindDataToCardViewHolder(mHolder, data)
+                mHolder.bind(data)
             }
 
             VIEW_TYPE_LIST -> {
-                val mholder = holder as Article_ListViewHolder
-                val data = articlelist[position]
+                val mHolder = holder as ArticleListViewHolder
+                val data = articleList[position]
                 // Bind data to ListViewHolder
-                bindDataToListViewHolder(mholder, data)
+                //bindDataToListViewHolder(mHolder, data)
+                mHolder.bind(data)
             }
         }
     }
 
     // Get the total number of items in the list
     override fun getItemCount(): Int {
-        return articlelist.size
+        return articleList.size
     }
 
     // Bind data to CardViewHolder
-    private fun bindDataToCardViewHolder(mholder: Article_CardViewHolder, data: Article) {
+    /*private fun bindDataToCardViewHolder(mholder: ArticleCardViewHolder, data: Article) {
         // Load image asynchronously
         loadAndDisplayImage(data.urlToImage, mholder.image, mholder.loading)
         // Set other data to CardViewHolder views
@@ -90,10 +99,10 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         mholder.title.setOnClickListener {
             openArticleUrl(data.url)
         }
-    }
+    }*/
 
     // Bind data to ListViewHolder
-    private fun bindDataToListViewHolder(mholder: Article_ListViewHolder, data: Article) {
+    /*private fun bindDataToListViewHolder(mholder: ArticleListViewHolder, data: Article) {
         // Load image asynchronously
         loadAndDisplayImage(data.urlToImage, mholder.image, mholder.loading)
         // Set data to ListViewHolder views
@@ -106,7 +115,7 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
         mholder.headline.setOnClickListener {
             openArticleUrl(data.url)
         }
-    }
+    }*/
 
     // Load image asynchronously and display it in the ImageView
     private fun loadAndDisplayImage(url: String?, imageView: ImageView, loadingView: TextView) {
@@ -144,8 +153,8 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     // Update the article list and notify the adapter
-    fun setArticleList(articlelist: List<Article>) {
-        this.articlelist = articlelist
+    fun setArticleList(articleList: List<Article>) {
+        this.articleList = articleList
         notifyDataSetChanged()
     }
 
@@ -156,24 +165,55 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
     }
 
     // ViewHolder for list view type
-    inner class Article_ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val loading: TextView = itemView.findViewById(R.id.item_loading)
+    inner class ArticleListViewHolder(private val binding: ArticleListviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        /*val loading: TextView = itemView.findViewById(R.id.item_loading)
         val image: ImageView = itemView.findViewById(R.id.item_image)
         val headline: TextView = itemView.findViewById(R.id.item_headline)
         val source: TextView = itemView.findViewById(R.id.item_source)
         val time: TextView = itemView.findViewById(R.id.item_time)
-        val author: TextView = itemView.findViewById(R.id.item_author)
+        val author: TextView = itemView.findViewById(R.id.item_author)*/
+        fun bind(article: Article) {
+            // Load image asynchronously
+            loadAndDisplayImage(article.urlToImage, binding.itemImage, binding.itemLoading)
+            // Set data to ListViewHolder views
+            binding.itemHeadline.text = article.title
+            binding.itemSource.text = article.name
+            binding.itemAuthor.text = "By ${article.author}"
+            // Format and set published date
+            setPublishedDate(article.publishedAt, binding.itemTime)
+            // Handle click event on headline
+            binding.itemHeadline.setOnClickListener {
+                openArticleUrl(article.url)
+            }
+        }
     }
 
     // ViewHolder for card view type
-    inner class Article_CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val loading: TextView = itemView.findViewById(R.id.item_loading)
+    inner class ArticleCardViewHolder(private val binding: ArticleCardviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        /*val loading: TextView = itemView.findViewById(R.id.item_loading)
         val image: ImageView = itemView.findViewById(R.id.item_image)
         val source: TextView = itemView.findViewById(R.id.item_source)
         val time: TextView = itemView.findViewById(R.id.item_time)
         val author: TextView = itemView.findViewById(R.id.item_author)
         val title: TextView = itemView.findViewById(R.id.item_title)
         val description: TextView = itemView.findViewById(R.id.item_description)
-        val content: TextView = itemView.findViewById(R.id.item_content)
+        val content: TextView = itemView.findViewById(R.id.item_content)*/
+
+        fun bind(article: Article) {
+            // Load image asynchronously
+            loadAndDisplayImage(article.urlToImage, binding.itemImage, binding.itemLoading)
+            // Set other data to CardViewHolder views
+            binding.itemSource.text = article.name
+            binding.itemAuthor.text = "By ${article.author}"
+            // Format and set published date
+            setPublishedDate(article.publishedAt, binding.itemTime)
+            binding.itemTitle.text = article.title
+            binding.itemDescription.text = article.description
+            binding.itemContent.text = article.content
+            // Handle click event on title
+            binding.itemTitle.setOnClickListener {
+                openArticleUrl(article.url)
+            }
+        }
     }
 }

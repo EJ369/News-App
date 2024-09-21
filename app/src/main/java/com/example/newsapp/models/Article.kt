@@ -1,4 +1,4 @@
-package com.example.newsapp
+package com.example.newsapp.models
 
 data class Article(
     val id: String?,          // Unique identifier for the article
